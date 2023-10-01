@@ -1,0 +1,13 @@
+[worldserver]
+
+########################################
+# QuickRespawn configuration
+########################################
+#
+#    QuickRespawn.Enable
+#        Description: Enables or disables the module
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+
+QuickRespawn.Enable = 1
