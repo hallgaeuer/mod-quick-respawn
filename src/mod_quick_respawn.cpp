@@ -35,7 +35,7 @@ public:
         {
             // Eye of Eternity: Use custom location, otherwise player gets stuck dead inside the instance
             case 616:
-                LOG_ERROR("module", "mod_quick_respawn: Using custom repop location for map 616");
+                LOG_INFO("module", "mod_quick_respawn: Using custom repop location for map 616");
                 customRepopLocation.target_mapId = 571;
                 customRepopLocation.target_X = 3863.902588;
                 customRepopLocation.target_Y = 6987.497559;
