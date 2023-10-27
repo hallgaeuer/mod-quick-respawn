@@ -27,22 +27,47 @@ public:
             return true;
         }
 
-        LOG_INFO("module", "mod_quick_respawn: Determining repopping location for map {}", map->GetId());
-        AreaTriggerTeleport const *customRepopLocation = sObjectMgr->GetGoBackTrigger(map->GetId());
+        AreaTriggerTeleport customRepopLocation;
+        AreaTriggerTeleport const *repopLocation;
 
-        if (!customRepopLocation) {
-            customRepopLocation = sObjectMgr->GetMapEntranceTrigger(map->GetId());
+        // Exceptions for specific maps
+        switch (map->GetId())
+        {
+            // Eye of Eternity: Use custom location, otherwise player gets stuck dead inside the instance
+            case 616:
+                LOG_ERROR("module", "mod_quick_respawn: Using custom repop location for map 616");
+                customRepopLocation.target_mapId = 571;
+                customRepopLocation.target_X = 3863.902588;
+                customRepopLocation.target_Y = 6987.497559;
+                customRepopLocation.target_Z = 152.042084;
+                customRepopLocation.target_Orientation = 5.820590;
+                break;
+            
+            default:
+                LOG_INFO("module", "mod_quick_respawn: Determining repopping location for map {}", map->GetId());
+                repopLocation = sObjectMgr->GetGoBackTrigger(map->GetId());
+
+                if (!repopLocation) {
+                    repopLocation = sObjectMgr->GetMapEntranceTrigger(map->GetId());
+                }
+
+                break;
         }
 
-        if (customRepopLocation)
+        if (customRepopLocation.target_mapId > 0) 
+        {
+            repopLocation = &customRepopLocation;
+        }
+    
+        if (repopLocation)
         {
             LOG_INFO("module", "mod_quick_respawn: Custom repop location found, teleporting player");
             player->TeleportTo(
-                customRepopLocation->target_mapId,
-                customRepopLocation->target_X,
-                customRepopLocation->target_Y,
-                customRepopLocation->target_Z,
-                customRepopLocation->target_Orientation);
+                repopLocation->target_mapId,
+                repopLocation->target_X,
+                repopLocation->target_Y,
+                repopLocation->target_Z,
+                repopLocation->target_Orientation);
 
             player->RemovePlayerFlag(PLAYER_FLAGS_IS_OUT_OF_BOUNDS);
             return false;
