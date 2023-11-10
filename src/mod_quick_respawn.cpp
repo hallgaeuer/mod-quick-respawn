@@ -27,7 +27,7 @@ public:
             return true;
         }
 
-        AreaTriggerTeleport customRepopLocation;
+        AreaTriggerTeleport customRepopLocation = {};
         AreaTriggerTeleport const *repopLocation;
 
         // Exceptions for specific maps
