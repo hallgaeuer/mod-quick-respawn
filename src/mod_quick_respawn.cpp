@@ -10,7 +10,7 @@ class QuickRespawn_Player : public PlayerScript
 public:
     QuickRespawn_Player() : PlayerScript("QuickRespawn_Player") {}
 
-    bool CanRepopAtGraveyard(Player *player) override
+    bool OnPlayerCanRepopAtGraveyard(Player *player) override
     {
         if (!sConfigMgr->GetOption<bool>("QuickRespawn.Enable", false))
         {
